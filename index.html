@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<body>
+    <h2>（一）Vue-component有兩種寫法（global / local)</h2>
+    <h2>1.寫法一(global)</h2>
+    <div id="app">
+        <my-component></my-component>
+        <my-component></my-component>
+    </div>
+    <h2>2.寫法二(local)</h2>
+    <div id="app2">
+        <my-component2></my-component2>
+        <my-component2></my-component2>
+    </div>
+    <h2>(二)component的注意事項</h2>
+    <h2>較常會用錯，如下有兩個範例</h2>
+    <div id="app3">
+        <h2>1.ul/li 錯誤寫法,通常只適用於chorme(請看程式碼)</h2>
+        <my-component3></my-component3>
+        <h2>2.ul/li 正確寫法</h2>
+        <my-component4></my-component4>
+        <h2>3.select/option 錯誤寫法(請看程式碼)</h2>
+        <select>
+            <my-component5></my-component5>
+        </select>
+        <h2>4.select / option 正確寫法</h2>
+        <my-component6></my-component6>
+    </div>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/vue/2.6.10/vue.min.js"></script>
+    <script>
+    Vue.component("my-component",{
+        template:`<div>HELLO</div>`
+    });
+    var app=new Vue({
+        el:"#app",
+    });
+    var app= new Vue({
+        el:"#app2",
+        components:{
+            "my-component2":{
+                template:`<div>Cool</div>`
+            }
+        }
+    });
+    Vue.component("my-component3",{
+        template:`<li>party time</li>`
+    });
+    Vue.component("my-component4",{
+        template:`<ul><li>parttime</li></ul>`
+    });
+    Vue.component("my-component5",{
+        template:`<option value="1990">1990</option>`
+    })
+    Vue.component("my-component6",{
+        template:`<select><option value="1990">1990</option></select>`
+    })
+
+    var app=new Vue({
+        el:"#app3",
+    })
+    </script>
+</body>
+</html>
