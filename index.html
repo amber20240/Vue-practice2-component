@@ -32,6 +32,22 @@
         <h2>4.select / option 正確寫法</h2>
         <my-component6></my-component6>
     </div>
+    <div id="app4">
+        <h2>(三)動態綁定</h2>
+        <button type="button" @click="change1">lesson</button>
+        <button type="button" @click="change2">apply</button>
+        <br>
+        <keep-alive>
+        <component :is="content"></component>
+        </keep-alive>
+        <h2>(四)Vue component的data必須式函式</h2>
+        <p>1.宣告在組件內的變數,會因為每次生成新的組件,而產生新的變數,所以不會互相干擾,各自獨立</p>
+        <counter1></counter1>
+        <counter1></counter1>
+        <p>2.（本行不確定）宣告在組件外的變數,會因為每次生成新的組件,而使用到同一個變數,所以會互相干擾,而產生同步情況</p>
+        <counter2></counter2>
+        <counter2></counter2>
+    </div>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/vue/2.6.10/vue.min.js"></script>
     <script>
     Vue.component("my-component",{
@@ -56,13 +72,76 @@
     });
     Vue.component("my-component5",{
         template:`<option value="1990">1990</option>`
-    })
+    });
     Vue.component("my-component6",{
         template:`<select><option value="1990">1990</option></select>`
+    });
+    Vue.component("lesson",{
+        template:
+        `
+        <ul>
+            <li>lesson1</li>
+            <li>lesson2</li>
+            <li>lesson3</li>
+        </ul>
+        `
+    });
+    Vue.component("apply",{
+        template:
+        `
+        <div>
+            <textarea></textarea>
+            <br>
+            <button type="button">submit</button>
+        </div>
+        `
+    });
+    Vue.component("counter1",{
+        data(){
+            return {
+                count1: 0
+            }
+        },
+        template:
+        `
+        <div>
+            <p>{{count1}}</p>
+            <button type="button" @click="count1 +=1">+1</button>
+        </div>
+        `
+    });
+    const count2Data={
+        count2:0
+    }
+    Vue.component("counter2",{
+        data(){
+            return count2Data
+        }
+        ,
+        template:
+        `
+        <div>
+            <p>{{count2}}</p>
+            <button type="button" @click="count2 +=2">+2</button>
+        </div>
+        `
     })
-
     var app=new Vue({
         el:"#app3",
+    });
+    var app=new Vue({
+        el:"#app4",
+        data:{
+            content:"lesson"
+        },
+        methods:{
+            change1(){
+                this.content="lesson"
+            },
+            change2(){
+                this.content="apply"
+            }
+        }
     })
     </script>
 </body>
