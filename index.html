@@ -48,6 +48,23 @@
         <counter2></counter2>
         <counter2></counter2>
     </div>
+    <div id="app5">
+        <h2>(五)上層傳來的props</h2>
+        <my-component7 book="good book"></my-component7>
+        <h2>(六)動態綁定props</h2>
+        <my-component8 :book="book"></my-component8>
+        <h2>(七)動態綁定props ＋ v-for （原理）</h2>
+        <my-component9 v-for="item in posts" :newbook="item.newbook" :author="item.author"></my-component9>
+        <h2>(八)動態綁定props ＋ v-for （簡易寫法）</h2>
+        <my-component9 v-for="item in posts" v-bind="item"></my-component9>
+        <h2>(九)動態綁定props ＋ 數字寫法</h2>
+        <h3>1.以下範例是錯的- 此時是變數＋字串</h3>
+        <my-component10 count="1"></my-component10>
+        <h3>2.以下範例是對的- 此時是變數＋數字（原理）</h3>
+        <my-component10 :count="count"></my-component10>
+        <h3>3.以下範例是對的- 此時是變數＋數字（簡易寫法）</h3>
+        <my-component10 :count="1"></my-component10>
+    </div>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/vue/2.6.10/vue.min.js"></script>
     <script>
     Vue.component("my-component",{
@@ -141,6 +158,34 @@
             change2(){
                 this.content="apply"
             }
+        }
+    });
+    Vue.component("my-component7",{
+        props:["book"],
+        template:
+        `<p>書名：{{book}}</p>`
+    });
+    Vue.component("my-component8",{
+        props:["book"],       
+        template:`<p>書名：{{book}}</p>`
+    });
+    Vue.component("my-component9",{
+        props:["newbook","author"],
+        template:`<div>書名：{{newbook}} ; 作者：{{author}}</div>`
+    });
+    Vue.component("my-component10",{
+        props:["count"],
+        template:`<p>我現在是:{{count +1}}</p>`
+    })
+    var app=new Vue({
+        el:"#app5",
+        data:{
+            book:"good book",
+            posts:[
+                {newbook:"cool",author:"bob"},
+                {newbook:"so cool",author:"dj"}
+                ],
+            count: 1
         }
     })
     </script>
