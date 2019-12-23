@@ -65,7 +65,37 @@
         <h3>3.以下範例是對的- 此時是變數＋數字（簡易寫法）</h3>
         <my-component10 :count="1"></my-component10>
     </div>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/vue/2.6.10/vue.min.js"></script>
+    <div id="app6">
+        <h2>(十)動態綁定props ＋ 計算器</h2>
+        <h3>1.一個計算器</h3>
+        <counter3 :count="count"></counter3>
+        <h3>2.二個計算器-互相干擾</h3>
+        <h3>2-1.html上面的</h3>
+        <p>{{count2}}</p>
+        <button type="button" @click="count2 +=2">+2</button>
+        <h3>2-2.Vue.component的</h3>
+        <counter4 :count2="count2"></counter4>
+        <h3>3.二個計算器-不會互相干擾的做法</h3>
+        <h3>3-1.html上面的</h3>
+        <p>{{count3}}</p>
+        <button type="button" @click="count3 +=2">+2</button>
+        <h3>3-2.Vue.component的</h3>
+        <counter5 :start="count3"></counter5>
+        <h3>4.做出原本數值的兩倍</h3>
+        <h3>4-1.原數值</h3>
+        <p>{{count4}}</p>
+        <button type="button" @click="count4 +=2">+2</button>
+        <h3>4-2.兩倍</h3>
+        <counter6 :count4="count4"></counter6>
+        <h2>(十一)驗證</h2>
+        <h3>驗證時要把引入的Vue刪除min,因為有min表示壓縮過,表示成品階段</h3>
+        <h3>沒有min表示開發階段</h3>
+        <h3>count5現在是字串（可看程式碼）,console此時會跳紅字</h3>
+        <counter7 count5="1"></counter7>
+        <h3>本題要用default來給值</h3>
+        <counter8></counter8>
+    </div>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/vue/2.6.10/vue.js"></script>
     <script>
     Vue.component("my-component",{
         template:`<div>HELLO</div>`
@@ -176,7 +206,7 @@
     Vue.component("my-component10",{
         props:["count"],
         template:`<p>我現在是:{{count +1}}</p>`
-    })
+    });
     var app=new Vue({
         el:"#app5",
         data:{
@@ -187,7 +217,87 @@
                 ],
             count: 1
         }
+    });
+    Vue.component("counter3",{
+        props:["count"],
+        template:
+        `
+        <div>
+            <p>{{count}}</P>
+            <button type="button" @click="count +=1">+1</button>
+        </div>
+        `
+    });
+    Vue.component("counter4",{
+        props:["count2"],
+        template:
+        `
+        <div>
+            <p>{{count2}}</p>
+            <button type="button" @click="count2 +=2">+2</button>
+        </div>
+        `
+    });
+    Vue.component("counter5",{
+        props:["start"],
+        data(){
+            return{
+                newcount: this.start
+            }
+        },
+        template:
+        `
+        <div>
+        <p>{{newcount}}</p>
+        <button type="button" @click="newcount +=2">+2</button>
+        </div>
+        `
+    });
+    Vue.component("counter6",{
+        props:["count4"],
+        computed:{
+            dbcount(){
+                return this.count4*2
+            }
+        },
+        template:
+        `
+        <p>{{dbcount}}</p>
+        `
+    });
+    Vue.component("counter7",{
+        props:{
+            count5: Number
+        },
+        template:
+        `
+        <p>{{count5}}</p>
+        `
     })
+    Vue.component("counter8",{
+        props: {
+            count6:{
+                type: Number,
+                default: 500,
+                validator(value){
+                    return value <= 100 
+                }
+            }
+        },
+        template:
+        `
+        <p>{{count6}}</p>
+        `
+    })
+    var app =new Vue({
+        el:"#app6",
+        data:{
+            count: 0,
+            count2: 0,
+            count3: 0,
+            count4: 0,
+        }
+    }) 
     </script>
 </body>
 </html>
