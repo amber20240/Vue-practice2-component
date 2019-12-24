@@ -94,6 +94,15 @@
         <counter7 count5="1"></counter7>
         <h3>本題要用default來給值</h3>
         <counter8></counter8>
+        <h2>(十二)綁定自訂事件</h2>
+        <h2>1.綁定自訂事件 & 給資料內容（num）</h2>
+        <counter9 @clicked1="alert1" @clicked2="alert2"></counter9>
+        <counter10 @clicked2="alert2"></counter10>
+        <h2>2.-透過emit按鈕更新第二個數值-原理</h2>
+        <counter11 @emit-data3="btn1"></counter11>
+        <h2>{{count5}}</h2>
+        <h2>3.綁定自訂事件-native寫法</h2>
+        <counter12 @click.native="alert3"></counter12>
     </div>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/vue/2.6.10/vue.js"></script>
     <script>
@@ -288,6 +297,54 @@
         `
         <p>{{count6}}</p>
         `
+    });
+    Vue.component("counter9",{
+        template:
+        `
+        <div>
+        <button type="button" @click="emitData">alert1</button>
+        </div>
+        `,
+        methods:{
+            emitData(){
+                this.$emit("clicked1",100)
+            },
+        }
+    });
+    Vue.component("counter10",{
+        template:
+        `
+        <button type="button" @click="emitData2">alert2</button>
+        `,
+        methods:{
+            emitData2(){
+                this.$emit("clicked2",1,2,3,4,5,6)
+            } 
+        }
+    });
+    Vue.component("counter11",{
+        data(){
+            return{
+                count : 0
+            }
+        },
+        template:`
+        <div>
+        <p>{{count}}</p>
+        <button type="button" @click="count +=1">this button</button>
+        <button type="button" @click="clicked3">emit</button>
+        </div>
+        `,
+        methods:{
+            clicked3(){
+                this.$emit("emit-data3",this.count)
+            }
+        }
+    });
+    Vue.component("counter12",{
+        template:`
+        <button type="button">native寫法</button>
+        `
     })
     var app =new Vue({
         el:"#app6",
@@ -296,6 +353,21 @@
             count2: 0,
             count3: 0,
             count4: 0,
+            count5: 0,
+        },
+        methods:{
+            alert1(num){
+                alert(`good${num}`)
+            },
+            alert2(x,y,z,e,h,k){
+                alert(`${x},${y},${z},${e},${h},${k}`)
+            },
+            btn1(count){
+                this.count5 = count
+            },
+            alert3(){
+                alert("hi")
+            }
         }
     }) 
     </script>
